@@ -3,29 +3,29 @@
 
 function Header({ text, bgColor, textColor }) {
   const headerStyler = {
-      backgroundColor: bgColor,
-      color: textColor,
-  }  
+    backgroundColor: bgColor,
+    color: textColor,
+  };
 
   return (
     <header style={headerStyler}>
-        <div className="container">
-            <h2>{text}</h2>
-        </div>
+      <div className="container">
+        <h2>{text}</h2>
+      </div>
     </header>
-  )
+  );
 }
 
 // способ устанавливать деволтные значения для properties компонента
 Header.defaultProps = {
-    text: 'Feedback UI',
-    bgColor: 'rgba(0,0,0,0.4)',
-    textColor: '#ff6a95',
-}
+  text: "Feedback UI",
+  bgColor: "rgba(0,0,0,0.4)",
+  textColor: "#ff6a95",
+};
 
 //собсна назначение типа, который должен передаваться, можно добавить .isRequired
 // Header.PropTypes = {
 //     text: PropTypes.string
 // }
 
-export default Header
+export default Header;
