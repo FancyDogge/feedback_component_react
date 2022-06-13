@@ -1,14 +1,8 @@
 import FeedbackItem from "./FeedbackItem"
+import PropTypes from "prop-types"
 import { AnimatePresence, motion } from "framer-motion"
-//self-explanatory, chtobi usat' context
-import { useContext } from "react"
-import FeedbackContext from "../context/FeedbackContext"
 
-function FeedbackList() {
-  //можно извлечь все что угодно из FeedbackContext используя useContext hook
-  //извлечь мы хотим все тчо находиться в value FeedbackContext.provider (в FeedbackContext.js)
-  const {feedback} = useContext(FeedbackContext)
-
+function FeedbackList({ feedback, handleDelete }) {
   if (!feedback || feedback.length === 0) {
     return <p>No Feedback Yet.</p>
   }
@@ -23,7 +17,7 @@ function FeedbackList() {
           exit={{ opacity: 0 }}
           layout
           >
-            <FeedbackItem key={item.id} item={item} />
+            <FeedbackItem key={item.id} item={item} handleDelete={handleDelete} />
           </motion.div>
           ))}       
       </AnimatePresence>
@@ -36,6 +30,17 @@ function FeedbackList() {
   //     ))}
   //   </div>
   // )
+}
+
+FeedbackList.propTypes = {
+  // можно даже указать из чего состоит массив
+  feedback: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      text: PropTypes.string.isRequired,
+      rating: PropTypes.number.isRequired,
+    })
+  ),
 }
 
 export default FeedbackList

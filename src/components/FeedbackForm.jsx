@@ -1,14 +1,18 @@
-import { useState } from "react"
+import { useState, useContext } from "react"
+import FeedbackContext from "../context/FeedbackContext"
 import Card from "./shared/Card"
 import Button from "./shared/Button"
 import RatingSelect from "./RatingSelect"
 
-function FeedbackForm({handleAdd}) {
+function FeedbackForm() {
   // разные состояния для разных компонентов/их частей
   const [text, setText] = useState("")
   const [btnDisabled, setBtnDisabled] = useState(true)
   const [message, setMessage] = useState("")
   const [rating, setRating] = useState(10)
+
+  //feedback context
+  const {addFeedback} = useContext(FeedbackContext)
 
   // логика стейтов
   const handleTextChange = (e) => {
@@ -37,7 +41,7 @@ function FeedbackForm({handleAdd}) {
         rating,
       }
 
-      handleAdd(newFeedback)
+      addFeedback(newFeedback)
 
       setText('')
     }
