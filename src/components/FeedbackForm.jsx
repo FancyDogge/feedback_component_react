@@ -1,4 +1,4 @@
-import { useState, useContext } from "react"
+import { useState, useContext, useEffect } from "react"
 import FeedbackContext from "../context/FeedbackContext"
 import Card from "./shared/Card"
 import Button from "./shared/Button"
@@ -12,7 +12,16 @@ function FeedbackForm() {
   const [rating, setRating] = useState(10)
 
   //feedback context
-  const {addFeedback} = useContext(FeedbackContext)
+  const {addFeedback, feedbackEdit, updateFeedback} = useContext(FeedbackContext)
+
+  //1 - callback, 2 -лист зависимостей, если пуст, то useeffect срабатывает при загрузке компонента, если есть объект, то когда он меняется, useeff срабатывает
+  useEffect(() => {
+    if (feedbackEdit.edit === true) {
+      setBtnDisabled(false)
+      setText(feedbackEdit.item.text)
+      setRating(feedbackEdit.item.rating)
+    }
+  }, [feedbackEdit])
 
   // логика стейтов
   const handleTextChange = (e) => {
@@ -40,8 +49,12 @@ function FeedbackForm() {
         text,
         rating,
       }
-
-      addFeedback(newFeedback)
+      // напоминалка: edit меняется на тру после клика на иконку "изменить"
+      if(feedbackEdit.edit === true) {
+        updateFeedback(feedbackEdit.item.id, newFeedback)
+      } else {
+        addFeedback(newFeedback)
+      }
 
       setText('')
     }

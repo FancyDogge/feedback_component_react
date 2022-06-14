@@ -14,6 +14,11 @@ export const FeedbackProvider = ({children}) => {
         }
     ])
 
+    const [feedbackEdit, setFeedbackEdit] = useState({
+        item: {},
+        edit: false
+    })
+
     const addFeedback = (newFeedback) => {
         newFeedback.id = uuidv4()
         // ...feedback - все что есть в массиве на данный момент + newFeedback
@@ -27,11 +32,32 @@ export const FeedbackProvider = ({children}) => {
         }
     }
 
+    //заапдейтить фидбек пост
+    const updateFeedback = (id, newData) => {
+        setFeedback(feedback.map((item) => item.id === id ? {...item, ...newData} : item))
+
+        // нужно установить edit на false после апдейта, иначе новый фидбек будет постоянно изменять тот, что отредактировали
+        setFeedbackEdit({
+            item: {},
+            edit: false,
+          })
+    }
+
+    const editFeedback = (item) => {
+        setFeedbackEdit({
+            item,
+            edit: true,
+        })
+    }
+
     return <FeedbackContext.Provider value={{
         //shortcut of feedback: feedback,
         feedback,
+        feedbackEdit,
         addFeedback,
         deleteFeedback, 
+        editFeedback,
+        updateFeedback,
     }}>
         {children}
     </FeedbackContext.Provider>
